@@ -1,0 +1,75 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+
+class Result {
+
+    /*
+     * Complete the 'acharMinimoDeDias' function below.
+     * The function is expected to return an INTEGER.
+     * The function accepts FLOAT_ARRAY duracoes as parameter.
+     */
+
+    public static int acharMinimoDeDias(List<Float> duracoes) {
+    // Write your code here
+    
+        List<List<Integer>> combinacoesmenor3 = new ArrayList<>();
+        
+        List<Integer> indicesJaCombinados = new ArrayList<>();
+        
+        for ( int i = 0; i < duracoes.size(); i++ ) {
+            
+            for ( int j = i+1; j < duracoes.size(); j++ ) {
+            
+                if(!indicesJaCombinados.contains(i) &&
+                    !indicesJaCombinados.contains(j)
+                    ) {
+                        
+                        float combinacao = duracoes.get(i) + duracoes.get(j);
+                
+                        if(combinacao <= 3) { 
+                            List<Integer> indiceDasCombinacoes = new ArrayList<>();
+                            indiceDasCombinacoes.add(i);
+                            indiceDasCombinacoes.add(j);
+                            combinacoesmenor3.add(indiceDasCombinacoes);
+                            indicesJaCombinados.add(i);
+                            indicesJaCombinados.add(j);
+                        }
+                    }
+            }
+            
+        }
+        
+        return combinacoesmenor3.size()+(duracoes.size()-indicesJaCombinados.size());
+
+    }
+
+}
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int duracoesCount = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<Float> duracoes = new ArrayList<>();
+
+        for (int i = 0; i < duracoesCount; i++) {
+            float duracoesItem = Float.parseFloat(bufferedReader.readLine().trim());
+            duracoes.add(duracoesItem);
+        }
+
+        int result = Result.acharMinimoDeDias(duracoes);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
